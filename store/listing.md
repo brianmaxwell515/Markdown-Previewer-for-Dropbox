@@ -28,7 +28,7 @@ FEATURES
 • Syntax highlighting for code blocks
 • Follows your system's light or dark mode
 • Hides YAML front matter and HTML comments
-• Supports .md, .markdown, .mdown, .mkd, .mkdn and .mdx files
+• Works with any Markdown file in your Dropbox
 
 PRIVATE BY DESIGN
 • Everything runs locally in your browser
@@ -61,7 +61,7 @@ Dropbox 網頁版只會把 .md 檔顯示成純文字。Markdown Previewer for Dr
 • 程式碼區塊語法高亮
 • 自動配合系統的淺色／深色模式
 • 自動隱藏 YAML front matter 與 HTML 註解
-• 支援 .md、.markdown、.mdown、.mkd、.mkdn、.mdx 檔案
+• 適用於 Dropbox 中的任何 Markdown 檔案
 
 重視隱私
 • 所有處理都在你的瀏覽器中完成
@@ -121,7 +121,7 @@ All JavaScript (marked, DOMPurify, highlight.js) is bundled in the package. The 
 
 ### 資料使用（Data usage）
 
-- 「你打算收集哪些使用者資料」：**全部不勾選**。檔案內容只在瀏覽器裡處理，不會傳出裝置，依 Chrome 線上應用程式商店的定義不算「收集」。
+- 「你打算收集哪些使用者資料」：只勾選**網站內容**（Website content），其他都不勾。擴充功能會讀取 Dropbox 頁面上的 Markdown 檔案文字；雖然只在瀏覽器裡處理、不會傳出裝置，但 Google 的 User Data FAQ 規定在本機處理的資料也必須揭露。
 - 下方三項聲明全部**勾選**：
   - I do not sell or transfer user data to third parties, outside of the approved use cases
   - I do not use or transfer user data for purposes that are unrelated to my item's single purpose
