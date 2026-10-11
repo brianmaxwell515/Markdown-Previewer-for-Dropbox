@@ -2,12 +2,21 @@
 
 English | [繁體中文](README.zh-TW.md)
 
+![Markdown Previewer for Dropbox](store/promo/marquee.png)
+
 A Chrome/Brave extension that adds a **Preview** button to the Dropbox web file viewer. It renders `.md` / `.markdown` files as formatted Markdown, with GitHub styling, syntax highlighting and automatic light/dark mode.
 
 It works in both places Dropbox shows a file:
 
 - the quick-view side panel in the file list (`/home/...?quickview=...`)
 - the full-page preview (`/preview/...md`)
+
+## Screenshots
+
+| | Source | Preview |
+| --- | --- | --- |
+| Quick view | ![Quick view, source](store/screenshots/01-quickview-source.png) | ![Quick view, rendered](store/screenshots/02-quickview-preview.png) |
+| Full page | ![Full page, source](store/screenshots/03-full-page-source.png) | ![Full page, rendered](store/screenshots/04-full-page-preview.png) |
 
 ## Install
 

@@ -2,12 +2,21 @@
 
 [English](README.md) | 繁體中文
 
+![Markdown Previewer for Dropbox](store/promo/marquee.png)
+
 這是一個 Chrome/Brave 擴充功能，會在 Dropbox 網頁版的檔案檢視器加上 **Preview** 按鈕。按下後會把 `.md`／`.markdown` 檔案顯示成排版後的 Markdown，採用 GitHub 風格，有程式碼語法高亮，並會自動切換淺色／深色模式。
 
 Dropbox 顯示檔案的兩個地方都可以用：
 
 - 檔案列表右側的快速預覽面板（`/home/...?quickview=...`）
 - 完整預覽頁面（`/preview/...md`）
+
+## 截圖
+
+| | 原始文字（Source） | 預覽（Preview） |
+| --- | --- | --- |
+| 快速預覽面板 | ![快速預覽面板，原始文字](store/screenshots/01-quickview-source.png) | ![快速預覽面板，預覽](store/screenshots/02-quickview-preview.png) |
+| 完整預覽頁面 | ![完整預覽頁面，原始文字](store/screenshots/03-full-page-source.png) | ![完整預覽頁面，預覽](store/screenshots/04-full-page-preview.png) |
 
 ## 安裝
 
