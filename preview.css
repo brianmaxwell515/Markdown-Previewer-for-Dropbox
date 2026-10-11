@@ -1,0 +1,48 @@
+:host {
+  all: initial;
+}
+
+.mdp-toggle {
+  position: absolute;
+  top: 12px;
+  right: 24px;
+  z-index: 3;
+  padding: 6px 14px;
+  border: 1px solid rgba(0, 0, 0, 0.2);
+  border-radius: 6px;
+  background: #0061fe;
+  color: #fff;
+  font: 600 13px/1.4 -apple-system, BlinkMacSystemFont, "Segoe UI", "Microsoft JhengHei", sans-serif;
+  cursor: pointer;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
+}
+
+.mdp-toggle:hover {
+  background: #0057e5;
+}
+
+.mdp-toggle[aria-pressed="true"] {
+  background: #fff;
+  color: #1e1919;
+}
+
+.mdp-overlay {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  overflow: auto;
+  box-sizing: border-box;
+}
+
+.mdp-overlay[hidden] {
+  display: none;
+}
+
+.mdp-overlay.markdown-body {
+  padding: 56px max(24px, calc((100% - 900px) / 2)) 64px;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Noto Sans TC", "Microsoft JhengHei", Helvetica, Arial, sans-serif;
+}
+
+.mdp-status {
+  color: var(--fgColor-muted, #59636e);
+}
