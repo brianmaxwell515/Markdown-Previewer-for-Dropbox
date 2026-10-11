@@ -1,2 +1,5 @@
 # Affinity Designer lock files
 *~lock~
+
+# Build output
+dist/

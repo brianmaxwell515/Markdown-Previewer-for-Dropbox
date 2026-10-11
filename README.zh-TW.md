@@ -16,6 +16,18 @@ Dropbox 顯示檔案的兩個地方都可以用：
 3. 按「載入未封裝項目」，選擇這個資料夾。
 4. 在 dropbox.com 開啟一個 `.md` 檔案，按檢視器右上角的 **Preview**。按 **Source** 可回到原始文字。
 
+## 打包上架用的 zip
+
+```powershell
+powershell -ExecutionPolicy Bypass -File .\build.ps1
+```
+
+會產生 `dist/markdown-previewer-for-dropbox-<版本>.zip`，只包含擴充功能需要的檔案。發布更新前，請先把 `manifest.json` 的 `version` 加一。上架文字與圖片放在 [store/](store/)。
+
+## 隱私權
+
+本擴充功能不收集、不儲存、不傳送任何資料。詳見[隱私權政策](PRIVACY.zh-TW.md)。
+
 ## 運作方式
 
 - Dropbox 的檢視器會從 `previews.dropbox.com/p/orig/.../p.md` 下載原始檔案。擴充功能用 `PerformanceObserver` 偵測這個請求，再用你目前的登入狀態抓取同一個網址。

@@ -4,6 +4,7 @@
 
 ```
 store/
+├── listing.md     上架時要填寫的文字（說明、權限理由、隱私權欄位）
 ├── screenshots/   商店截圖
 └── promo/         宣傳圖塊
 ```
@@ -24,7 +25,9 @@ store/
 
 | 檔名 | 尺寸 | 是否必要 |
 | --- | --- | --- |
-| `small-tile.png` | 440×280 | 建議提供，商店列表與搜尋結果會用到 |
+| `small-tile.png` | 440×280 | **必要**，商店首頁、類別頁與搜尋結果會用到 |
 | `marquee.png` | 1400×560 | 選用，只有被商店精選時才會用到 |
+
+`small-tile.png` 由 `make_small_tile.py` 從 `icons/icon.png` 產生，修改圖示後在 repo 根目錄執行 `python store/promo/make_small_tile.py` 即可重新產生。
 
 商店圖示（128×128）直接使用 `icons/icon128.png`，不需另外準備。

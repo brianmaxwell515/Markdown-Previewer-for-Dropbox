@@ -16,6 +16,18 @@ It works in both places Dropbox shows a file:
 3. Click **Load unpacked** and select this folder.
 4. Open a `.md` file on dropbox.com and click **Preview** at the top right of the viewer. Click **Source** to go back.
 
+## Package for the Chrome Web Store
+
+```powershell
+powershell -ExecutionPolicy Bypass -File .\build.ps1
+```
+
+This creates `dist/markdown-previewer-for-dropbox-<version>.zip` with only the files the extension needs. Bump `version` in `manifest.json` before building an update. Listing text and images are in [store/](store/).
+
+## Privacy
+
+The extension does not collect, store or send any data. See the [privacy policy](PRIVACY.md).
+
 ## How it works
 
 - Dropbox's viewer downloads the original file from `previews.dropbox.com/p/orig/.../p.md`. The content script watches for that request with a `PerformanceObserver` and fetches the same URL with your session.
