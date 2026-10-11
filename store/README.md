@@ -28,6 +28,9 @@ store/
 | `small-tile.png` | 440×280 | **必要**，商店首頁、類別頁與搜尋結果會用到 |
 | `marquee.png` | 1400×560 | 選用，只有被商店精選時才會用到 |
 
-`small-tile.png` 由 `make_small_tile.py` 從 `icons/icon.png` 產生，修改圖示後在 repo 根目錄執行 `python store/promo/make_small_tile.py` 即可重新產生。
+兩張圖都由腳本產生，在 repo 根目錄執行即可重新產生：
+
+- `python store/promo/make_small_tile.py`：用 `icons/icon.png` 產生 `small-tile.png`
+- `python store/promo/make_marquee.py`：用 `icons/icon.png` 和 `screenshots/03`、`04` 產生 `marquee.png`（24 位元 PNG，無透明層）
 
 商店圖示（128×128）直接使用 `icons/icon128.png`，不需另外準備。
