@@ -56,7 +56,7 @@
   function readDomText(viewer) {
     const lines = viewer.querySelectorAll('[data-slate-node="element"]');
     if (!lines.length) return viewer.innerText;
-    return Array.from(lines, (li) => li.textContent.replace(/[﻿​]/g, '')).join('\n');
+    return Array.from(lines, (li) => li.textContent.replace(/[\uFEFF\u200B]/g, '')).join('\n');
   }
 
   // Make sure the fetched file is the one currently shown (the last preview URL
@@ -86,7 +86,7 @@
   }
 
   function stripFrontMatter(md) {
-    return md.replace(/^﻿?---\r?\n[\s\S]*?\r?\n---\r?\n/, '');
+    return md.replace(/^\uFEFF?---\r?\n[\s\S]*?\r?\n---\r?\n/, '');
   }
 
   function render(md, overlay) {
