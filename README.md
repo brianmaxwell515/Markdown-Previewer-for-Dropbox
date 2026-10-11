@@ -1,5 +1,7 @@
 # Markdown Previewer for Dropbox
 
+English | [繁體中文](README.zh-TW.md)
+
 A Chrome/Brave extension that adds a **Preview** button to the Dropbox web file viewer. It renders `.md` / `.markdown` files as formatted Markdown, with GitHub styling, syntax highlighting and automatic light/dark mode.
 
 It works in both places Dropbox shows a file:
