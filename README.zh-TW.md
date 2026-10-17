@@ -4,6 +4,8 @@
 
 ![Markdown Previewer for Dropbox](store/promo/marquee.png)
 
+[![Chrome Web Store](https://img.shields.io/chrome-web-store/v/mcmfjcocjahlihlalehjkfniibgbcbae?label=Chrome%20Web%20Store&logo=googlechrome&logoColor=white&color=0068EF)](https://chromewebstore.google.com/detail/markdown-previewer-for-dr/mcmfjcocjahlihlalehjkfniibgbcbae)
+
 這是一個 Chrome/Brave 擴充功能，會在 Dropbox 網頁版的檔案檢視器加上 **Preview** 按鈕。按下後會把 `.md`／`.markdown` 檔案顯示成排版後的 Markdown，採用 GitHub 風格，有程式碼語法高亮，並會自動切換淺色／深色模式。
 
 Dropbox 顯示檔案的兩個地方都可以用：
@@ -20,10 +22,18 @@ Dropbox 顯示檔案的兩個地方都可以用：
 
 ## 安裝
 
-1. 打開 `chrome://extensions`（或 `brave://extensions`）。
-2. 開啟右上角的「開發人員模式」。
-3. 按「載入未封裝項目」，選擇這個資料夾。
-4. 在 dropbox.com 開啟一個 `.md` 檔案，按檢視器右上角的 **Preview**。按 **Source** 可回到原始文字。
+### 從 Chrome 線上應用程式商店安裝（建議）
+
+到 Chrome 線上應用程式商店安裝 **[Markdown Previewer for Dropbox](https://chromewebstore.google.com/detail/markdown-previewer-for-dr/mcmfjcocjahlihlalehjkfniibgbcbae)**。Chrome、Brave 及其他 Chromium 瀏覽器都可以使用，而且會自動更新。
+
+安裝後在 dropbox.com 開啟一個 `.md` 檔案，按檢視器右上角的 **Preview**。按 **Source** 可回到原始文字。
+
+### 從原始碼安裝
+
+1. 從 [Releases](https://github.com/brianmaxwell515/Markdown-Previewer-for-Dropbox/releases) 下載 zip 並解壓縮，或 clone 這個 repo。
+2. 打開 `chrome://extensions`（或 `brave://extensions`）。
+3. 開啟右上角的「開發人員模式」。
+4. 按「載入未封裝項目」，選擇該資料夾。
 
 ## 打包上架用的 zip
 
