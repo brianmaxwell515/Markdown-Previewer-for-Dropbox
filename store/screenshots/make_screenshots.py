@@ -6,7 +6,7 @@ Requires Pillow, NumPy and the Segoe UI fonts that ship with Windows.
 Inputs live in store/screenshots/raw/:
 - quickview-*.png / full-page-*.png: Dropbox captured at a 1440x900 viewport
   @2x, with Dropbox's own Markdown view (-dropbox) and with the extension
-  (-extension)
+  (-extension); *-code.png are scrolled to the code blocks
 - render-light.png / render-dark.png: demo.md rendered by the extension's
   renderer at 2x, in light and dark mode
 """
@@ -134,20 +134,24 @@ def save(img, name):
 
 label_font = font('seguisb.ttf', 17)
 
-# 1. Dropbox's Markdown view vs. the extension, same quick-view panel
+# 1. Dropbox's Markdown view vs. the extension, same quick-view panel scrolled
+# to the code blocks
 img = background()
 heading(img, "Dropbox's Markdown view, upgraded",
-        'Same file, same viewer, with clean GitHub-style formatting.')
-before = fit(capture('quickview-dropbox', QUICKVIEW_PANEL), 540)
-after = fit(capture('quickview-extension', QUICKVIEW_PANEL), 540)
-place(img, before, (70, 230), bottom=False)
-place(img, after, (670, 230), bottom=False)
+        'Same file, same viewer, with clean GitHub-style formatting and highlighted code.')
+code_area = (QUICKVIEW_PANEL[0], 246, QUICKVIEW_PANEL[2], 900)
+before = capture('quickview-dropbox-code', code_area)
+# hide the bottom edge of the table above "This week" in Dropbox's view
+ImageDraw.Draw(before).rectangle((0, 0, 552 * 2, (286 - 246) * 2), fill='white')  # stop before the scrollbar
+before = fit(before, 540)
+after = fit(capture('quickview-extension-code', code_area), 540)
+place(img, before, (70, 214), bottom=False)
+place(img, after, (670, 214), bottom=False)
 d = ImageDraw.Draw(img)
-pill(d, (70, 186), 'Dropbox', label_font, (226, 229, 234), MUTED, 16, 32)
-pill(d, (670, 186), 'With Markdown Previewer', label_font, 'white', BLUE, 16, 32)
-cx, cy = 640, 470
-d.ellipse((cx - 34, cy - 34, cx + 34, cy + 34), fill='white')
-d.polygon([(cx - 14, cy - 16), (cx + 18, cy), (cx - 14, cy + 16)], fill=BLUE)
+pill(d, (70, 170), 'Dropbox', label_font, (226, 229, 234), MUTED, 16, 32)
+pill(d, (670, 170), 'With Markdown Previewer', label_font, 'white', BLUE, 16, 32)
+cx, cy = 640, 214 + (H - 214) // 2
+d.polygon([(cx - 13, cy - 20), (cx + 17, cy), (cx - 13, cy + 20)], fill='white')
 save(img, '01-before-after.png')
 
 # 2. Nothing extra to click; Dropbox's own toggle shows the source

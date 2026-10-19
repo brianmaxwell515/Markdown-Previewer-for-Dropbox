@@ -28,7 +28,7 @@ store/
 
 這四張由 `make_screenshots.py` 產生，在 repo 根目錄執行 `python store/screenshots/make_screenshots.py` 即可重新產生。素材放在 `raw/`：
 
-- `quickview-*.png`、`full-page-*.png`：以 1440×900、2 倍解析度在 Dropbox 截的快速預覽與完整預覽畫面。`-dropbox` 是 Dropbox 原本的 Markdown 檢視，`-extension` 是裝了擴充功能後的畫面。
+- `quickview-*.png`、`full-page-*.png`：以 1440×900、2 倍解析度在 Dropbox 截的快速預覽與完整預覽畫面。`-dropbox` 是 Dropbox 原本的 Markdown 檢視，`-extension` 是裝了擴充功能後的畫面；檔名有 `-code` 的是捲動到程式碼區塊的畫面，兩邊的「Quick start」標題對齊在同一高度。
 - `render-light.png`、`render-dark.png`：用擴充功能的渲染器把 `demo.md` 以 2 倍解析度渲染出的淺色／深色畫面。
 
 截圖請使用示範用的 Markdown 檔，不要露出真實資料、帳號名稱或共享成員的名字。
