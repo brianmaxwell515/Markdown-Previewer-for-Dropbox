@@ -6,19 +6,19 @@
 
 [![Chrome Web Store](https://img.shields.io/chrome-web-store/v/mcmfjcocjahlihlalehjkfniibgbcbae?label=Chrome%20Web%20Store&logo=googlechrome&logoColor=white&color=0068EF)](https://chromewebstore.google.com/detail/markdown-previewer-for-dr/mcmfjcocjahlihlalehjkfniibgbcbae)
 
-這是一個 Chrome/Brave 擴充功能，會在 Dropbox 網頁版的檔案檢視器加上 **Preview** 按鈕。按下後會把 `.md`／`.markdown` 檔案顯示成排版後的 Markdown，採用 GitHub 風格，有程式碼語法高亮，並會自動切換淺色／深色模式。
+這是一個 Chrome/Brave 擴充功能，用來改善 Dropbox 網頁版顯示 Markdown 檔案的方式。Dropbox 以 Markdown 格式檢視 `.md` 檔時，擴充功能會把 Dropbox 的排版換成 GitHub 風格的排版，有程式碼語法高亮，並會跟著 Dropbox 的主題切換淺色／深色模式。Dropbox 的純文字檢視則維持不變，用 Dropbox 本身的檢視切換按鈕就能看到原始文字。
 
 Dropbox 顯示檔案的兩個地方都可以用：
 
 - 檔案列表右側的快速預覽面板（`/home/...?quickview=...`）
-- 完整預覽頁面（`/preview/...md`）
+- 完整預覽頁面（`/home/...?preview=...md`）
 
 ## 截圖
 
-| | 原始文字（Source） | 預覽（Preview） |
-| --- | --- | --- |
-| 快速預覽面板 | ![快速預覽面板，原始文字](store/screenshots/01-quickview-source.png) | ![快速預覽面板，預覽](store/screenshots/02-quickview-preview.png) |
-| 完整預覽頁面 | ![完整預覽頁面，原始文字](store/screenshots/03-full-page-source.png) | ![完整預覽頁面，預覽](store/screenshots/04-full-page-preview.png) |
+| | |
+| --- | --- |
+| ![升級 Dropbox 的 Markdown 檢視](store/screenshots/01-before-after.png) | ![不需要額外點擊](store/screenshots/02-nothing-to-click.png) |
+| ![快速預覽面板與完整預覽頁面都能用](store/screenshots/03-quick-view-and-full-page.png) | ![表格、待辦清單與程式碼高亮，支援淺色／深色模式](store/screenshots/04-formatting-dark-mode.png) |
 
 ## 安裝
 
@@ -26,7 +26,7 @@ Dropbox 顯示檔案的兩個地方都可以用：
 
 到 Chrome 線上應用程式商店安裝 **[Markdown Previewer for Dropbox](https://chromewebstore.google.com/detail/markdown-previewer-for-dr/mcmfjcocjahlihlalehjkfniibgbcbae)**。Chrome、Brave 及其他 Chromium 瀏覽器都可以使用，而且會自動更新。
 
-安裝後在 dropbox.com 開啟一個 `.md` 檔案，按檢視器右上角的 **Preview**。按 **Source** 可回到原始文字。
+安裝後在 dropbox.com 開啟一個 `.md` 檔案。在 Dropbox 的 Markdown 檢視中，會直接以擴充功能的排版顯示；切換到 Dropbox 的純文字檢視即可看到原始文字。
 
 ### 從原始碼安裝
 

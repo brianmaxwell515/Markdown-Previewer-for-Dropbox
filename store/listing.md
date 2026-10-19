@@ -13,20 +13,20 @@
 | 欄位 | 內容 |
 | --- | --- |
 | 名稱 | Markdown Previewer for Dropbox |
-| 摘要（上限 132 字元） | Adds a Preview button to Dropbox's web file viewer that renders Markdown files. |
+| 摘要（上限 132 字元） | Replaces Dropbox's Markdown view with clean GitHub-style formatting, tables, task lists and code highlighting. |
 
 ### 說明（Description）— English
 
 ```text
 View your Markdown files the way they are meant to be read — right inside Dropbox.
 
-Dropbox's web viewer shows .md files as plain text. Markdown Previewer for Dropbox adds a Preview button to the viewer. Click it to see the file rendered with headings, tables, lists and highlighted code. Click Source to switch back.
+Markdown Previewer for Dropbox replaces the formatting of Dropbox's Markdown view with clean, GitHub-style rendering: proper headings, tables, task lists and highlighted code. There is nothing extra to click. Dropbox's plain-text view is left unchanged, so you can still switch to the source with Dropbox's own view toggle.
 
 FEATURES
 • Works in both the quick-view side panel and the full-page file preview
 • GitHub-style formatting: headings, tables, task lists, block quotes, links and more
 • Syntax highlighting for code blocks
-• Follows your system's light or dark mode
+• Follows Dropbox's light or dark theme
 • Hides YAML front matter and HTML comments
 • Works with any Markdown file in your Dropbox
 
@@ -38,8 +38,8 @@ PRIVATE BY DESIGN
 
 HOW TO USE
 1. Open dropbox.com and click a Markdown file.
-2. Click Preview at the top right of the viewer.
-3. Click Source to return to the original text.
+2. In Dropbox's Markdown view, the file is shown with the extension's formatting.
+3. Switch Dropbox to its plain-text view to see the source.
 
 Note: images referenced with relative paths inside the Markdown file are not displayed.
 
@@ -53,13 +53,13 @@ This extension is not affiliated with, endorsed by, or sponsored by Dropbox, Inc
 ```text
 直接在 Dropbox 裡，以排版後的樣子閱讀 Markdown 檔案。
 
-Dropbox 網頁版只會把 .md 檔顯示成純文字。Markdown Previewer for Dropbox 會在檢視器加上 Preview 按鈕，按下後即可看到包含標題、表格、清單與程式碼高亮的排版結果；按 Source 即可切回原始文字。
+Markdown Previewer for Dropbox 會把 Dropbox「以 Markdown 格式檢視」的排版，換成整齊的 GitHub 風格：清楚的標題、表格、待辦清單與程式碼高亮，不需要額外按任何按鈕。Dropbox 的純文字檢視維持不變，用 Dropbox 本身的檢視切換按鈕就能看到原始文字。
 
 功能特色
 • 支援檔案列表的快速預覽面板，以及完整預覽頁面
 • GitHub 風格排版：標題、表格、待辦清單、引言區塊、連結等
 • 程式碼區塊語法高亮
-• 自動配合系統的淺色／深色模式
+• 自動配合 Dropbox 的淺色／深色主題
 • 自動隱藏 YAML front matter 與 HTML 註解
 • 適用於 Dropbox 中的任何 Markdown 檔案
 
@@ -71,8 +71,8 @@ Dropbox 網頁版只會把 .md 檔顯示成純文字。Markdown Previewer for Dr
 
 使用方式
 1. 開啟 dropbox.com，點選一個 Markdown 檔案。
-2. 按檢視器右上角的 Preview。
-3. 按 Source 回到原始文字。
+2. 在 Dropbox 的 Markdown 檢視中，會直接以擴充功能的排版顯示。
+3. 切換到 Dropbox 的純文字檢視即可看到原始文字。
 
 注意：Markdown 中使用相對路徑的圖片不會顯示。
 
@@ -108,7 +108,7 @@ Render Markdown files as formatted text inside the Dropbox website's file viewer
 **Host permission**（`https://previews.dropbox.com/*`，以及內容腳本執行的 `https://www.dropbox.com/*`）：
 
 ```text
-The content script runs on www.dropbox.com only to add a Preview button to Dropbox's file viewer. Access to previews.dropbox.com is used to download the original Markdown file that the user is currently viewing (the same URL Dropbox's own viewer loads), so the rendered preview is complete. No other sites are accessed and no data leaves the browser.
+The content script runs on www.dropbox.com only to display Markdown files with the extension's formatting in Dropbox's file viewer. Access to previews.dropbox.com is used to download the original Markdown file that the user is currently viewing (the same URL Dropbox's own viewer loads), so the rendered preview is complete. No other sites are accessed and no data leaves the browser.
 ```
 
 ### 遠端程式碼（Remote code）

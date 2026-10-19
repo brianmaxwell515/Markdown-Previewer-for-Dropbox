@@ -3,7 +3,7 @@
 English | [繁體中文](PRIVACY.zh-TW.md)
 
 **Markdown Previewer for Dropbox**
-Effective date: October 11, 2026
+Effective date: October 19, 2026
 
 Markdown Previewer for Dropbox ("the extension") is an open-source browser extension that renders Markdown files in the Dropbox website's file viewer. This policy explains what data the extension accesses and what it does with that data.
 
@@ -13,13 +13,13 @@ The extension does **not** collect, store, sell, or transmit any personal data. 
 
 ## What the extension accesses
 
-When you open a Markdown file in the Dropbox web viewer and click **Preview**, the extension:
+When you open a Markdown file in Dropbox's Markdown view on the Dropbox website, the extension:
 
-1. Reads the text of the file that Dropbox is showing on the page.
+1. Reads the text that Dropbox is showing on the page, to identify which file is open.
 2. Downloads the same file from `previews.dropbox.com`, the address Dropbox's own viewer uses. The request uses your existing Dropbox session in your browser, so the extension can only read files you are already viewing.
-3. Converts the Markdown to formatted text and displays it on the page.
+3. Converts the Markdown to formatted text and displays it on the page in place of Dropbox's own formatting.
 
-The file content is kept in memory only while the preview is shown, and is discarded when you leave the page or switch files.
+The file content is kept in memory only while the Dropbox page is open, and is discarded when you close or reload the page.
 
 ## What the extension does not do
 
@@ -33,7 +33,7 @@ The file content is kept in memory only while the preview is shown, and is disca
 
 | Permission | Why it is needed |
 | --- | --- |
-| Runs on `https://www.dropbox.com/*` | Adds the **Preview** button to the Dropbox file viewer. |
+| Runs on `https://www.dropbox.com/*` | Displays Markdown files with the extension's formatting in the Dropbox file viewer. |
 | Access to `https://previews.dropbox.com/*` | Downloads the original Markdown file that you are viewing, so the preview is complete and accurate. |
 
 ## Open source

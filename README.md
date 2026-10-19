@@ -6,19 +6,19 @@ English | [繁體中文](README.zh-TW.md)
 
 [![Chrome Web Store](https://img.shields.io/chrome-web-store/v/mcmfjcocjahlihlalehjkfniibgbcbae?label=Chrome%20Web%20Store&logo=googlechrome&logoColor=white&color=0068EF)](https://chromewebstore.google.com/detail/markdown-previewer-for-dr/mcmfjcocjahlihlalehjkfniibgbcbae)
 
-A Chrome/Brave extension that adds a **Preview** button to the Dropbox web file viewer. It renders `.md` / `.markdown` files as formatted Markdown, with GitHub styling, syntax highlighting and automatic light/dark mode.
+A Chrome/Brave extension that improves how the Dropbox website displays Markdown files. When Dropbox shows a `.md` file in its Markdown view, the extension replaces Dropbox's rendering with clean GitHub-style formatting, syntax highlighting, and light/dark mode that follows Dropbox's theme. Dropbox's plain-text view is left unchanged, so you can still switch to the source with Dropbox's own view toggle.
 
 It works in both places Dropbox shows a file:
 
 - the quick-view side panel in the file list (`/home/...?quickview=...`)
-- the full-page preview (`/preview/...md`)
+- the full-page preview (`/home/...?preview=...md`)
 
 ## Screenshots
 
-| | Source | Preview |
-| --- | --- | --- |
-| Quick view | ![Quick view, source](store/screenshots/01-quickview-source.png) | ![Quick view, rendered](store/screenshots/02-quickview-preview.png) |
-| Full page | ![Full page, source](store/screenshots/03-full-page-source.png) | ![Full page, rendered](store/screenshots/04-full-page-preview.png) |
+| | |
+| --- | --- |
+| ![Dropbox's Markdown view, upgraded](store/screenshots/01-before-after.png) | ![Nothing extra to click](store/screenshots/02-nothing-to-click.png) |
+| ![Works in quick view and full-page preview](store/screenshots/03-quick-view-and-full-page.png) | ![Tables, task lists and highlighted code in light and dark mode](store/screenshots/04-formatting-dark-mode.png) |
 
 ## Install
 
@@ -26,7 +26,7 @@ It works in both places Dropbox shows a file:
 
 Install **[Markdown Previewer for Dropbox](https://chromewebstore.google.com/detail/markdown-previewer-for-dr/mcmfjcocjahlihlalehjkfniibgbcbae)** from the Chrome Web Store. It works in Chrome, Brave and other Chromium-based browsers, and updates automatically.
 
-Then open a `.md` file on dropbox.com and click **Preview** at the top right of the viewer. Click **Source** to go back.
+Then open a `.md` file on dropbox.com. In Dropbox's Markdown view it is shown with the extension's formatting; switch Dropbox to its plain-text view to see the source.
 
 ### From source
 

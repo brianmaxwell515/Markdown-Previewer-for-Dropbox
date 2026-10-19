@@ -2,8 +2,9 @@
 (() => {
   'use strict';
 
-  // Dropbox's file viewer (both /preview/... pages and the quick-view panel in
-  // the file list) renders text files inside this container.
+  // Dropbox's file viewer (the full-page preview and the quick-view panel in
+  // the file list) shows the file inside PREVIEW_CONTENT. Markdown files have
+  // two modes there: plain text (TEXT_PREVIEW) and Dropbox's own rendering.
   const TEXT_PREVIEW = '[data-testid="fvsdk_text_preview"]';
   const PREVIEW_CONTENT = '[data-testid="fvsdk_preview_content"]';
   const QUICKVIEW_TITLE = '[data-testid="quick-view-titlebar-test-id"]';
@@ -26,6 +27,7 @@
         if (i !== -1) origUrls.splice(i, 1);
         origUrls.push(e.name);
         if (origUrls.length > 20) origUrls.shift();
+        schedule(); // the file on screen may be the one that just loaded
       }
     }).observe({ type: 'resource', buffered: true });
   } catch (_) {
@@ -36,53 +38,94 @@
     ['lib/github-markdown.css', 'lib/hljs-github.min.css', 'lib/hljs-github-dark.min.css', 'preview.css'].map((p) =>
       fetch(chrome.runtime.getURL(p)).then((r) => r.text())
     )
-  ).then(([gh, hlLight, hlDark, own]) =>
-    [
+  ).then(([gh, hlLight, hlDark, own]) => {
+    const css = [
       gh,
       `@media (prefers-color-scheme: light) { ${hlLight} }`,
       `@media (prefers-color-scheme: dark) { ${hlDark} }`,
       own,
-    ].join('\n')
-  ).catch(() => '');
+    ].join('\n');
+    // Dropbox has its own light/dark setting, independent of the OS, so build
+    // a fixed light and a fixed dark variant; 'auto' follows the OS.
+    const fixed = (scheme) =>
+      css.replace(/@media \(prefers-color-scheme: (dark|light)\)/g, (_, s) =>
+        s === scheme ? '@media all' : '@media not all'
+      );
+    return { auto: css, light: fixed('light'), dark: fixed('dark') };
+  }).catch(() => ({ auto: '', light: '', dark: '' }));
+
+  // Dropbox marks its theme on <html>: dig-Mode--bright or dig-Mode--dark.
+  function dropboxScheme() {
+    const c = document.documentElement.className;
+    if (/\bdig-Mode--dark\b/.test(c)) return 'dark';
+    if (/\bdig-Mode--(bright|light)\b/.test(c)) return 'light';
+    return 'auto';
+  }
+
+  const sheetCache = {};
+
+  async function applyTheme(root) {
+    const scheme = dropboxScheme();
+    const css = (await cssPromise)[scheme];
+    try {
+      if (!sheetCache[scheme]) {
+        sheetCache[scheme] = new CSSStyleSheet();
+        sheetCache[scheme].replaceSync(css);
+      }
+      root.adoptedStyleSheets = [sheetCache[scheme]];
+    } catch (_) {
+      let style = root.querySelector('style');
+      if (!style) root.prepend((style = document.createElement('style')));
+      style.textContent = css;
+    }
+  }
 
   function isMarkdownFile() {
     if (MD_EXT.test(decodeURIComponent(location.pathname))) return true;
+    // Full-page preview: /home/<folder>?preview=<file>.md
+    if (MD_EXT.test(new URLSearchParams(location.search).get('preview') || '')) return true;
     if (origUrls.length && ORIG_MD.test(origUrls[origUrls.length - 1])) return true;
     // Quick-view title bar reads e.g. "00_總表MD • 6.71 KB"
     const qv = document.querySelector(QUICKVIEW_TITLE);
     return !!qv && /(MD|MARKDOWN|MDX)\s*•/.test(qv.textContent);
   }
 
-  function readDomText(viewer) {
-    const lines = viewer.querySelectorAll('[data-slate-node="element"]');
-    if (!lines.length) return viewer.innerText;
-    return Array.from(lines, (li) => li.textContent.replace(/[\uFEFF\u200B]/g, '')).join('\n');
+  // Make sure the fetched file is the one Dropbox is showing (the last preview
+  // URL could belong to a previously opened or prefetched file). Only letters
+  // and digits are compared, because Dropbox's rendered text has no Markdown
+  // syntax such as ** or |.
+  function sameFile(source, renderedText) {
+    const norm = (s) => s.replace(/[^\p{L}\p{N}]+/gu, '');
+    const probe = renderedText.split('\n').map(norm).filter((l) => l.length >= 4).slice(0, 8);
+    if (!probe.length) return false;
+    const body = norm(source);
+    const hits = probe.filter((l) => body.includes(l)).length;
+    return hits >= Math.ceil(probe.length * 0.6);
   }
 
-  // Make sure the fetched file is the one currently shown (the last preview URL
-  // could belong to a previously opened file).
-  function sameFile(fetched, domText) {
-    const norm = (s) => s.replace(/\s+/g, '');
-    const probe = domText.split('\n').map(norm).filter(Boolean).slice(0, 5);
-    if (!probe.length) return true;
-    const body = norm(fetched);
-    return probe.every((l) => body.includes(l));
+  const sources = new Map(); // preview URL -> file text
+
+  async function fetchSource(url) {
+    if (!sources.has(url)) {
+      const r = await fetch(url, { credentials: 'include' });
+      if (!r.ok) return null;
+      sources.set(url, await r.text());
+    }
+    return sources.get(url);
   }
 
-  async function getMarkdown(viewer) {
-    const domText = readDomText(viewer);
+  // Returns the Markdown source of the file Dropbox is showing, or null.
+  async function findSource(renderedText) {
     const candidates = origUrls.filter((u) => ORIG_MD.test(u)).reverse().slice(0, 5);
     for (const url of candidates) {
       try {
-        const r = await fetch(url, { credentials: 'include' });
-        if (!r.ok) continue;
-        const text = await r.text();
-        if (sameFile(text, domText)) return text;
+        const text = await fetchSource(url);
+        if (text !== null && sameFile(text, renderedText)) return text;
       } catch (_) {
-        // Try the next candidate, then fall back to the DOM text.
+        // Try the next candidate.
       }
     }
-    return domText;
+    return null;
   }
 
   function stripFrontMatter(md) {
@@ -106,89 +149,73 @@
     });
   }
 
-  async function attach(container, viewer) {
+  // Views we could not match to a source file, so Dropbox's own rendering is
+  // left in place. Retried when the view's text or the known URLs change.
+  const failed = new WeakMap();
+  const pending = new WeakSet();
+
+  // Covers Dropbox's rendered view with our rendering of the same file.
+  async function attach(container, view, attempt) {
     const host = document.createElement('div');
     host.className = 'mdp-host';
-    host.mdpViewer = viewer;
+    host.mdpView = view;
     host.mdpKey = location.href;
     const root = host.attachShadow({ mode: 'open' });
 
-    const css = await cssPromise;
-    try {
-      const sheet = new CSSStyleSheet();
-      sheet.replaceSync(css);
-      root.adoptedStyleSheets = [sheet];
-    } catch (_) {
-      const style = document.createElement('style');
-      style.textContent = css;
-      root.appendChild(style);
-    }
+    await applyTheme(root);
 
-    const button = document.createElement('button');
-    button.className = 'mdp-toggle';
-    button.type = 'button';
-    button.textContent = 'Preview';
-    button.setAttribute('aria-pressed', 'false');
-    button.title = 'Render this Markdown file';
-
+    // Shown (empty) right away so Dropbox's styling doesn't flash first.
     const overlay = document.createElement('article');
     overlay.className = 'mdp-overlay markdown-body';
-    overlay.hidden = true;
-
-    button.addEventListener('click', async () => {
-      const show = overlay.hidden;
-      if (show) {
-        overlay.innerHTML = '<p class="mdp-status">Loading…</p>';
-        overlay.hidden = false;
-        button.textContent = 'Source';
-        button.setAttribute('aria-pressed', 'true');
-        try {
-          render(await getMarkdown(host.mdpViewer), overlay);
-        } catch (err) {
-          overlay.textContent = 'Failed to render Markdown: ' + err;
-        }
-        overlay.scrollTop = 0;
-      } else {
-        overlay.hidden = true;
-        button.textContent = 'Preview';
-        button.setAttribute('aria-pressed', 'false');
-      }
-    });
-
-    // Keep wheel/keyboard events inside the overlay from reaching Dropbox's
-    // viewer shortcuts (e.g. arrow keys switching files).
+    // Keep keyboard events inside the overlay from reaching Dropbox's viewer
+    // shortcuts (e.g. arrow keys switching files).
     overlay.addEventListener('keydown', (e) => e.stopPropagation());
-
-    root.append(button, overlay);
+    root.append(overlay);
     if (getComputedStyle(container).position === 'static') container.style.position = 'relative';
     container.appendChild(host);
-  }
 
-  const pending = new WeakSet();
-
-  function scan() {
-    const viewer = document.querySelector(TEXT_PREVIEW);
-    const existing = document.querySelectorAll('.mdp-host');
-    if (!viewer || !isMarkdownFile()) {
-      existing.forEach((h) => h.remove());
+    const md = await findSource(view.innerText);
+    if (!host.isConnected) return;
+    if (md === null) {
+      host.remove();
+      failed.set(view, attempt);
       return;
     }
-    const container = viewer.closest(PREVIEW_CONTENT) || viewer.parentElement;
-    existing.forEach((h) => {
-      if (h.parentElement !== container) h.remove();
-    });
-    const host = container.querySelector(':scope > .mdp-host');
-    if (host) {
-      // Another file was opened in the same viewer: return to source view.
-      if (host.mdpViewer !== viewer || host.mdpKey !== location.href) {
-        host.remove();
-      } else {
-        return;
-      }
+    render(md, overlay);
+  }
+
+  // The visible viewer area. The page can also hold a hidden one, e.g. the
+  // file list's quick view behind a full-page preview.
+  function findContainer() {
+    let best = null;
+    for (const el of document.querySelectorAll(PREVIEW_CONTENT)) {
+      if (!el.offsetWidth || !el.offsetHeight) continue;
+      if (!best || el.offsetWidth * el.offsetHeight > best.offsetWidth * best.offsetHeight) best = el;
     }
-    if (pending.has(container)) return;
+    return best;
+  }
+
+  function scan() {
+    const container = findContainer();
+    // Dropbox's Markdown view: the viewer holds a Markdown file but not the
+    // plain-text view. In plain-text mode we leave Dropbox's source view alone.
+    const view =
+      container && isMarkdownFile() && !container.querySelector(TEXT_PREVIEW)
+        ? Array.from(container.children).find((c) => !c.classList.contains('mdp-host'))
+        : null;
+
+    for (const h of document.querySelectorAll('.mdp-host')) {
+      if (!view || h.parentElement !== container || h.mdpView !== view || h.mdpKey !== location.href) h.remove();
+    }
+    if (!view || container.querySelector(':scope > .mdp-host') || pending.has(container)) return;
+
+    const text = view.innerText.trim();
+    if (!text) return; // Dropbox hasn't rendered the file yet.
+    const attempt = location.href + '|' + origUrls.length + '|' + text.slice(0, 200);
+    if (failed.get(view) === attempt) return;
+
     pending.add(container);
-    attach(container, viewer).finally(() => pending.delete(container));
+    attach(container, view, attempt).finally(() => pending.delete(container));
   }
 
   let timer = 0;
@@ -198,6 +225,10 @@
 
   const start = () => {
     new MutationObserver(schedule).observe(document.body, { childList: true, subtree: true });
+    // Follow Dropbox's theme when the user switches it.
+    new MutationObserver(() => {
+      document.querySelectorAll('.mdp-host').forEach((h) => applyTheme(h.shadowRoot));
+    }).observe(document.documentElement, { attributes: true, attributeFilter: ['class'] });
     schedule();
   };
   if (document.body) start();

@@ -1,8 +1,8 @@
 {
   "manifest_version": 3,
   "name": "Markdown Previewer for Dropbox",
-  "version": "1.0.0",
-  "description": "Adds a Preview button to Dropbox's web file viewer that renders Markdown files.",
+  "version": "1.1.0",
+  "description": "Replaces Dropbox's Markdown view with clean GitHub-style formatting, tables, task lists and code highlighting.",
   "icons": {
     "16": "icons/icon16.png",
     "48": "icons/icon48.png",

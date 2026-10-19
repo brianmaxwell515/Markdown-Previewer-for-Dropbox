@@ -3,7 +3,7 @@
 [English](PRIVACY.md) | 繁體中文
 
 **Markdown Previewer for Dropbox**
-生效日期：2026 年 10 月 11 日
+生效日期：2026 年 10 月 19 日
 
 Markdown Previewer for Dropbox（以下簡稱「本擴充功能」）是一個開放原始碼的瀏覽器擴充功能，用來在 Dropbox 網頁版的檔案檢視器中顯示排版後的 Markdown 檔案。本政策說明本擴充功能會存取哪些資料，以及如何處理這些資料。
 
@@ -13,13 +13,13 @@ Markdown Previewer for Dropbox（以下簡稱「本擴充功能」）是一個�
 
 ## 本擴充功能會存取的資料
 
-當你在 Dropbox 網頁檢視器開啟 Markdown 檔案並按下 **Preview** 時，本擴充功能會：
+當你在 Dropbox 網站以 Markdown 格式檢視 Markdown 檔案時，本擴充功能會：
 
-1. 讀取 Dropbox 頁面上正在顯示的檔案文字。
+1. 讀取 Dropbox 頁面上正在顯示的文字，用來確認開啟的是哪個檔案。
 2. 從 `previews.dropbox.com` 下載同一個檔案，這也是 Dropbox 自己的檢視器使用的網址。下載時使用你瀏覽器中現有的 Dropbox 登入狀態，因此只能讀取你本來就正在檢視的檔案。
-3. 將 Markdown 轉換成排版後的內容並顯示在頁面上。
+3. 將 Markdown 轉換成排版後的內容，取代 Dropbox 原本的排版顯示在頁面上。
 
-檔案內容只會在預覽顯示期間暫存在記憶體中，離開頁面或切換檔案後即被捨棄。
+檔案內容只會在 Dropbox 頁面開啟期間暫存在記憶體中，關閉或重新整理頁面後即被捨棄。
 
 ## 本擴充功能不會做的事
 
@@ -33,7 +33,7 @@ Markdown Previewer for Dropbox（以下簡稱「本擴充功能」）是一個�
 
 | 權限 | 用途 |
 | --- | --- |
-| 在 `https://www.dropbox.com/*` 上執行 | 在 Dropbox 檔案檢視器加上 **Preview** 按鈕。 |
+| 在 `https://www.dropbox.com/*` 上執行 | 在 Dropbox 檔案檢視器中，以本擴充功能的排版顯示 Markdown 檔案。 |
 | 存取 `https://previews.dropbox.com/*` | 下載你正在檢視的 Markdown 原始檔，讓預覽內容完整且正確。 |
 
 ## 開放原始碼
