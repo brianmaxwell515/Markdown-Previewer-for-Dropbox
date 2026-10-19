@@ -75,15 +75,17 @@ def place(canvas, img, xy, radius=14):
 canvas = gradient((W, H), (255, 255, 255), (226, 236, 255))
 draw = ImageDraw.Draw(canvas)
 
-# Right: raw Markdown behind, rendered preview in front.
-src = Image.open(ROOT / 'store/screenshots/03-full-page-source.png').crop((15, 215, 700, 640))
-pre = Image.open(ROOT / 'store/screenshots/04-full-page-preview.png').crop((225, 250, 830, 715))
-back = card(src, 450, 'Source', (229, 231, 235), MUTED)
-front = card(pre, 470, 'Preview', BLUE, 'white')
+# Right: Dropbox's own Markdown view behind, the extension's in front.
+# Crop boxes are CSS pixels of the 2x captures.
+crop2x = lambda img, box: img.crop(tuple(v * 2 for v in box))
+src = crop2x(Image.open(ROOT / 'store/screenshots/raw/full-page-dropbox.png'), (40, 150, 700, 535))
+pre = crop2x(Image.open(ROOT / 'store/screenshots/raw/full-page-extension.png'), (250, 150, 900, 580))
+back = card(src, 450, 'Dropbox', (229, 231, 235), MUTED)
+front = card(pre, 470, 'Markdown Previewer', BLUE, 'white')
 place(canvas, back, (690, 44))
 place(canvas, front, (W - 470 - 50, H - front.height - 34))
 
-# Left: icon, title, tagline and the Preview button.
+# Left: icon, title, tagline and a badge.
 icon = Image.open(ROOT / 'icons/icon.png').convert('RGBA')
 icon = icon.crop(icon.getchannel('A').getbbox())
 icon = icon.resize((round(icon.width * 100 / icon.height), 100), Image.LANCZOS)
@@ -96,7 +98,7 @@ items = [
     ('icon', None, None, 100, 26),
     ('Markdown Previewer', title, INK, None, 16),
     ('for Dropbox', sub, MUTED, None, 22),
-    ('Read .md files fully formatted —', body, MUTED, None, 4),
+    ('Clean, GitHub-style Markdown —', body, MUTED, None, 4),
     ('right inside the Dropbox web viewer.', body, MUTED, None, 30),
     ('button', None, None, 50, 0),
 ]
@@ -106,7 +108,7 @@ for (text, fnt, color, _, gap), h in zip(items, heights):
     if text == 'icon':
         canvas.paste(icon, (x, y), icon)
     elif text == 'button':
-        pill(draw, (x, y), 'Preview', font('seguisb.ttf', 22), BLUE, 'white', 30, 50, 10)
+        pill(draw, (x, y), 'Free & open source', font('seguisb.ttf', 22), BLUE, 'white', 26, 50, 25)
     else:
         draw.text((x, y - fnt.getbbox(text)[1]), text, font=fnt, fill=color)
     y += h + gap

@@ -42,8 +42,8 @@ lines = [('Markdown', bold, INK), ('Previewer', bold, INK), ('for Dropbox', semi
 gaps = [2 * S, 10 * S, 0]
 heights = [d.getbbox(t)[3] - d.getbbox(t)[1] for t, d, _ in lines]
 
-# "Preview" pill, matching the button the extension adds.
-btn_text = 'Preview'
+# Badge under the title.
+btn_text = 'Free & open source'
 tb = btn_font.getbbox(btn_text)
 btn_w, btn_h = tb[2] - tb[0] + 28 * S, 34 * S
 btn_gap = 18 * S
@@ -55,7 +55,7 @@ for (text, font, color), h, gap in zip(lines, heights, gaps):
     y += h + gap
 
 y += btn_gap
-draw.rounded_rectangle((x, y, x + btn_w, y + btn_h), radius=8 * S, fill=BLUE)
+draw.rounded_rectangle((x, y, x + btn_w, y + btn_h), radius=btn_h // 2, fill=BLUE)
 draw.text(
     (x + (btn_w - (tb[2] - tb[0])) / 2 - tb[0], y + (btn_h - (tb[3] - tb[1])) / 2 - tb[1]),
     btn_text, font=btn_font, fill='white',
